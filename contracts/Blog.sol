@@ -46,6 +46,7 @@ contract Blog is usingOraclize, Ownable {
     hashesByAuthor[author].push(hash);
     emit PostAdded(author, hash, now, _title);
   }
+  // @audit this function is payable should check mishandling of ETH
 
   function addPost(string _hash) public payable returns (bool) {
     require(authorByHash[keccak256(bytes(_hash))] == address(0), "This post already exists");
