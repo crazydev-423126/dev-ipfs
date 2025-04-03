@@ -50,7 +50,7 @@ contract Blog is usingOraclize, Ownable {
 
   function addPost(string _hash) public payable returns (bool) {
 
-    //@audit keep CEI?
+
     require(authorByHash[keccak256(bytes(_hash))] == address(0), "This post already exists");
     require(msg.value >= oraclize_getPrice("IPFS"), "The fee is too low");
     bytes32 queryId = oraclize_query("IPFS", "json(".toSlice().concat(_hash.toSlice()).toSlice().concat(").title".toSlice()), gasLimit);
