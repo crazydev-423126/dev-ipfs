@@ -49,6 +49,7 @@ contract Blog is usingOraclize, Ownable {
   // @audit this function is payable should check mishandling of ETH
 
   function addPost(string _hash) public payable returns (bool) {
+    //@audit Keep CEI
     require(authorByHash[keccak256(bytes(_hash))] == address(0), "This post already exists");
     require(msg.value >= oraclize_getPrice("IPFS"), "The fee is too low");
     bytes32 queryId = oraclize_query("IPFS", "json(".toSlice().concat(_hash.toSlice()).toSlice().concat(").title".toSlice()), gasLimit);
